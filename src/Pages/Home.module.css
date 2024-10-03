@@ -1,0 +1,46 @@
+.content {
+    animation: showPage 1s forwards ease-in-out;
+    position: relative;
+}
+@keyframes showPage {
+    0% { 
+        bottom: 40px;
+        opacity: .3;
+    }    
+    100% {
+        bottom: 0px;
+        opacity: 1;
+    }
+}
+.title {
+    margin-top: 1.3em;
+    color: #2B364A;
+    font-size: 5em;
+    font-weight: 800;
+    text-decoration: underline 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+    font-size: 1.2em;
+}
+
+.buttons button {
+    background-color: #6CF3D5;
+    border: none;
+    padding: .9em 3em;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #2B364A;
+    font-weight: bold;
+    font-size: 20px;
+}
+.buttons button:hover {
+    background-color: #60dfc3;
+}
+
+.buttons a{
+    text-decoration: none;
+}
