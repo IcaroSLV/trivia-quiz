@@ -33,11 +33,7 @@ function QuestionsPage() {
         <>
         {questionList.length > 0 && 
             <Question 
-            fetchPergunta={questionList[0].question}
-            fetchOpcoesErradas={questionList[0].incorrect_answers}
-            fetchOpcaoCerta={questionList[0].correct_answer}
-            fetchTema={questionList[0].category}
-            fetchDificuldade={questionList[0].difficulty}
+            fetchArrayPerguntas={questionList}
             
             />
         }

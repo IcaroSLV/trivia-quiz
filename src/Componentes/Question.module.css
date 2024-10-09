@@ -49,3 +49,10 @@
 .question .options button:hover {
     background-color: #9ff3e1;
 }
+
+.wrong {
+    background-color: #FF1D44 !important;
+}
+.correct {
+    background-color: #A3B808 !important;
+}

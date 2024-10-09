@@ -1,36 +1,48 @@
 import { useEffect, useState } from 'react'
 import styles from './Question.module.css'
 
-function Question({fetchPergunta, fetchOpcoesErradas, fetchOpcaoCerta, fetchTema, fetchDificuldade}) {
+function Question({fetchArrayPerguntas}) {
 
-    const[pergunta, setPergunta] = useState(fetchPergunta)
-    const[tema, setTema] = useState(fetchTema)
-    const[dificuldade, setDificuldade] = useState(fetchDificuldade)
+    const[pergunta, setPergunta] = useState('')
+    const[tema, setTema] = useState('')
+    const[dificuldade, setDificuldade] = useState('')
     const[opcoes, setOpcoes] = useState([])
 
-    const randomArray = (array) => {
-        const newArray = [...array]; // Cria uma cópia do array original
-        for (let i = newArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Troca elementos
-        }
-        return newArray; // Retorna o array embaralhado
-    };
+    const[opcoesErradas, setOpcoesErradas] = useState([])
+    const[opcaoCerta, setOpcaoCerta] = useState('')
+
+    const[indexQuestion, setIndexQuestion] = useState(0)
+
+    const[clickedIndex, setclickedIndex] = useState(null)
+    const[awnserCorrect, setAwnserCorrect] = useState(false)
 
     useEffect(() => {
-        setPergunta(fetchPergunta)
-        setTema(fetchTema)
-        setDificuldade(fetchDificuldade)
-        // Define opcoes com base nas opções erradas e na opção certa
-        if (Array.isArray(fetchOpcoesErradas) && fetchOpcaoCerta) {
-            const allOpcoes = [...fetchOpcoesErradas, fetchOpcaoCerta];
+        setOpcaoCerta(fetchArrayPerguntas[indexQuestion].correct_answer)
+        setOpcoesErradas(fetchArrayPerguntas[indexQuestion].incorrect_answers)
+    }, [indexQuestion])
+
+    useEffect(() => {
+        setPergunta(fetchArrayPerguntas[indexQuestion].question)
+        setTema(fetchArrayPerguntas[indexQuestion].category)
+        setDificuldade(fetchArrayPerguntas[indexQuestion].difficulty)
+
+
+        if (Array.isArray(opcoesErradas) && opcaoCerta) {
+            const allOpcoes = [...opcoesErradas, opcaoCerta];
             setOpcoes(randomArray(allOpcoes))
         } else {
-            console.error('As opções erradas não são um array ou a opção certa é inválida:', fetchOpcoesErradas, fetchOpcaoCerta);
+            console.error('As opções erradas não são um array ou a opção certa é inválida:', opcoesErradas, opcaoCerta);
         }
-    }, [fetchOpcoesErradas, fetchOpcaoCerta]); //
+    }, [opcoesErradas, opcaoCerta, indexQuestion]);
 
-    console.log(opcoes)
+    const randomArray = (array) => {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    };
 
     const renderDif = () => {
         if(dificuldade == 'easy') {
@@ -42,12 +54,32 @@ function Question({fetchPergunta, fetchOpcoesErradas, fetchOpcaoCerta, fetchTema
         }
     }
 
+    function VerifyAwnser(awnser, index) {
+        setclickedIndex(index)
+
+        if(awnser == opcaoCerta) {
+            setAwnserCorrect(true)
+        } else {
+            setAwnserCorrect(false)
+        }
+
+        if(indexQuestion < 4) {
+            setTimeout(() => {
+                setIndexQuestion(indexQuestion + 1)
+                setAwnserCorrect(false)
+                setclickedIndex(null)
+            }, 1500);
+        }
+
+
+    }
+
 
     return(
         <div className={styles.page}>
             <section className={styles.info}>
                 <div>
-                    <p>Perguntas: 1 | 5</p>
+                    <p>Perguntas: {indexQuestion + 1} | 5</p>
                 </div>
                 <div>
                     <p>{tema}</p>
@@ -62,7 +94,10 @@ function Question({fetchPergunta, fetchOpcoesErradas, fetchOpcaoCerta, fetchTema
                 </h1>
                 <div className={styles.options}>
                     {opcoes.map((op, index) => (
-                        <button key={index}>{op}</button>
+                        <button 
+                        className={index === clickedIndex ? (awnserCorrect ? styles.correct : styles.wrong) : ''} 
+                        key={index} 
+                        onClick={() => VerifyAwnser(op, index)} >{op}</button>
                     ))}
                 </div>
             </section>
