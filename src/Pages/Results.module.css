@@ -1,0 +1,37 @@
+.title {
+    font-size: 40px;
+    margin-top: 2em;
+}
+
+.info {
+    font-size: 25px;
+}
+
+.info span {
+    border-bottom: 2px solid black;
+    color: #2B364A;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 1.2em;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    background-color:#6CF3D5;
+    border: none;
+    padding: .4em 2.2em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #2B364A;
+}
+
+.button:hover {
+    background-color: #60d3ba;
+}

@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import styles from './Question.module.css'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 function Question({fetchArrayPerguntas}) {
+
+    const Navigate = useNavigate();
 
     const[pergunta, setPergunta] = useState('')
     const[tema, setTema] = useState('')
@@ -15,6 +18,9 @@ function Question({fetchArrayPerguntas}) {
 
     const[clickedIndex, setclickedIndex] = useState(null)
     const[awnserCorrect, setAwnserCorrect] = useState(false)
+    const[isDisable, setIsDisable] = useState(false)
+
+    const[qntCorrect, setQntCorrect] = useState(0)
 
     useEffect(() => {
         setOpcaoCerta(fetchArrayPerguntas[indexQuestion].correct_answer)
@@ -55,23 +61,32 @@ function Question({fetchArrayPerguntas}) {
     }
 
     function VerifyAwnser(awnser, index) {
+        if (isDisable) return;
+
         setclickedIndex(index)
 
         if(awnser == opcaoCerta) {
             setAwnserCorrect(true)
+            setQntCorrect(qntCorrect + 1)
         } else {
             setAwnserCorrect(false)
         }
+
+        setIsDisable(true)
 
         if(indexQuestion < 4) {
             setTimeout(() => {
                 setIndexQuestion(indexQuestion + 1)
                 setAwnserCorrect(false)
                 setclickedIndex(null)
+                setIsDisable(false)
+                console.log(qntCorrect)
             }, 1500);
+        } else {
+            setTimeout(() => {
+                Navigate('/Results', { state: {qntCorrect: qntCorrect}})
+            }, 1000)
         }
-
-
     }
 
 
