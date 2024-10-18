@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 
 function Question({fetchArrayPerguntas}) {
 
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
 
     const[pergunta, setPergunta] = useState('')
     const[tema, setTema] = useState('')
@@ -31,7 +31,6 @@ function Question({fetchArrayPerguntas}) {
         setPergunta(fetchArrayPerguntas[indexQuestion].question)
         setTema(fetchArrayPerguntas[indexQuestion].category)
         setDificuldade(fetchArrayPerguntas[indexQuestion].difficulty)
-
 
         if (Array.isArray(opcoesErradas) && opcaoCerta) {
             const allOpcoes = [...opcoesErradas, opcaoCerta];
@@ -84,7 +83,7 @@ function Question({fetchArrayPerguntas}) {
             }, 1500);
         } else {
             setTimeout(() => {
-                Navigate('/Results', { state: {qntCorrect: qntCorrect}})
+                navigate('/Results',{state:{qntCorrect: qntCorrect}});
             }, 1000)
         }
     }

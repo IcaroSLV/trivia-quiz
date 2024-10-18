@@ -12,7 +12,7 @@ function QuestionsPage() {
     useEffect(() => {
         const fetchTrivia = async () => {
             try {
-                if(apiKey != '') {
+                if(apiKey !== '') {
                     const response = await fetch(`https://tryvia.ptr.red/api.php?amount=5&token=${apiKey}`)
                     const data = await response.json()
                     setQuestionList(data.results)
@@ -22,7 +22,7 @@ function QuestionsPage() {
             }
         } 
 
-        if(apiKey != '') {
+        if(apiKey !== '') {
             fetchTrivia()
         }
     }, [apiKey])
