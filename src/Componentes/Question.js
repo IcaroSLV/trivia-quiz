@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styles from './Question.module.css'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Question({fetchArrayPerguntas}) {
 
@@ -25,7 +25,7 @@ function Question({fetchArrayPerguntas}) {
     useEffect(() => {
         setOpcaoCerta(fetchArrayPerguntas[indexQuestion].correct_answer)
         setOpcoesErradas(fetchArrayPerguntas[indexQuestion].incorrect_answers)
-    }, [indexQuestion])
+    }, [indexQuestion, fetchArrayPerguntas])
 
     useEffect(() => {
         setPergunta(fetchArrayPerguntas[indexQuestion].question)
@@ -38,7 +38,7 @@ function Question({fetchArrayPerguntas}) {
         } else {
             console.error('As opções erradas não são um array ou a opção certa é inválida:', opcoesErradas, opcaoCerta);
         }
-    }, [opcoesErradas, opcaoCerta, indexQuestion]);
+    }, [opcoesErradas, opcaoCerta, indexQuestion, fetchArrayPerguntas]);
 
     const randomArray = (array) => {
         const newArray = [...array];
@@ -50,11 +50,11 @@ function Question({fetchArrayPerguntas}) {
     };
 
     const renderDif = () => {
-        if(dificuldade == 'easy') {
+        if(dificuldade === 'easy') {
             return "Dificuldade: Fácil"
-        } else if (dificuldade == 'medium') {
+        } else if (dificuldade === 'medium') {
             return "Dificuldade: Média"
-        } else if (dificuldade == "hard") {
+        } else if (dificuldade === "hard") {
             return "Dificuldade: Difícil"
         }
     }
@@ -64,7 +64,7 @@ function Question({fetchArrayPerguntas}) {
 
         setclickedIndex(index)
 
-        if(awnser == opcaoCerta) {
+        if(awnser === opcaoCerta) {
             setAwnserCorrect(true)
             setQntCorrect(qntCorrect + 1)
         } else {
