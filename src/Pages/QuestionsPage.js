@@ -7,34 +7,39 @@ function QuestionsPage() {
     const [questionList, setQuestionList] = useState([])
 
     const location = useLocation()
-    const apiKey = location.state
+    const {apiToken, qntPerguntas, opSelect} = location.state || {}
 
     useEffect(() => {
         const fetchTrivia = async () => {
             try {
-                if(apiKey !== '') {
-                    const response = await fetch(`https://tryvia.ptr.red/api.php?amount=5&token=${apiKey}`)
-                    const data = await response.json()
-                    setQuestionList(data.results)
+                if(apiToken !== '') {
+                    console.log(opSelect)
+                    if(opSelect === 0) {
+                        const response = await fetch(`https://tryvia.ptr.red/api.php?amount=${qntPerguntas}&token=${apiToken}`)
+                        const data = await response.json()
+                        setQuestionList(data.results)
+                    } else if (opSelect !== '') {
+                        const response = await fetch(`https://tryvia.ptr.red/api.php?amount=${qntPerguntas}&category=${opSelect}&token=${apiToken}`)
+                        const data = await response.json()
+                        setQuestionList(data.results)
+                    }
                 }
             } catch(err) {
                 console.log(err)
             }
         } 
 
-        if(apiKey !== '') {
+        if(apiToken !== '') {
             fetchTrivia()
         }
-    }, [apiKey])
-
-    console.log(questionList[0])
+    }, [apiToken])
 
     return(
         <>
         {questionList.length > 0 && 
             <Question 
             fetchArrayPerguntas={questionList}
-            
+            qntPerguntas={qntPerguntas}
             />
         }
         </>

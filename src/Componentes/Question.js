@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styles from './Question.module.css'
 import { useNavigate } from 'react-router-dom'
 
-function Question({fetchArrayPerguntas}) {
+function Question({fetchArrayPerguntas, qntPerguntas}) {
 
     const navigate = useNavigate();
 
@@ -35,8 +35,6 @@ function Question({fetchArrayPerguntas}) {
         if (Array.isArray(opcoesErradas) && opcaoCerta) {
             const allOpcoes = [...opcoesErradas, opcaoCerta];
             setOpcoes(randomArray(allOpcoes))
-        } else {
-            console.error('As opções erradas não são um array ou a opção certa é inválida:', opcoesErradas, opcaoCerta);
         }
     }, [opcoesErradas, opcaoCerta, indexQuestion, fetchArrayPerguntas]);
 
@@ -61,39 +59,54 @@ function Question({fetchArrayPerguntas}) {
 
     function VerifyAwnser(awnser, index) {
         if (isDisable) return;
-
-        setclickedIndex(index)
-
-        if(awnser === opcaoCerta) {
-            setAwnserCorrect(true)
-            setQntCorrect(qntCorrect + 1)
+    
+        setclickedIndex(index);
+    
+        if (awnser === opcaoCerta) {
+            setAwnserCorrect(true);
+            setQntCorrect(prevQntCorrect => {
+                const newQntCorrect = prevQntCorrect + 1;
+    
+                if (indexQuestion < qntPerguntas - 1) {
+                    setTimeout(() => {
+                        setIndexQuestion(indexQuestion + 1);
+                        setAwnserCorrect(false);
+                        setclickedIndex(null);
+                        setIsDisable(false);
+                        console.log(newQntCorrect);
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        navigate('/Results', { state: { qntCorrect: newQntCorrect, qntPerguntas } });
+                    }, 1000);
+                }
+    
+                return newQntCorrect;
+            });
         } else {
-            setAwnserCorrect(false)
-        }
-
-        setIsDisable(true)
-
-        if(indexQuestion < 4) {
-            setTimeout(() => {
-                setIndexQuestion(indexQuestion + 1)
-                setAwnserCorrect(false)
-                setclickedIndex(null)
-                setIsDisable(false)
-                console.log(qntCorrect)
-            }, 1500);
-        } else {
-            setTimeout(() => {
-                navigate('/Results',{state:{qntCorrect: qntCorrect}});
-            }, 1000)
+            setAwnserCorrect(false);
+            setIsDisable(true);
+    
+            if (indexQuestion < qntPerguntas - 1) {
+                setTimeout(() => {
+                    setIndexQuestion(indexQuestion + 1);
+                    setAwnserCorrect(false);
+                    setclickedIndex(null);
+                    setIsDisable(false);
+                }, 1500);
+            } else {
+                setTimeout(() => {
+                    navigate('/Results', { state: { qntCorrect, qntPerguntas } });
+                }, 1000);
+            }
         }
     }
-
 
     return(
         <div className={styles.page}>
             <section className={styles.info}>
                 <div>
-                    <p>Perguntas: {indexQuestion + 1} | 5</p>
+                    <p>Perguntas: {indexQuestion + 1} | {qntPerguntas}</p>
                 </div>
                 <div>
                     <p>{tema}</p>

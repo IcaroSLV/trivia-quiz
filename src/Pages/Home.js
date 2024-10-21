@@ -7,6 +7,15 @@ import { useState, useEffect } from "react";
 function Home() {
 
   const [apiToken, setApiToken] = useState()
+  const [qntPerguntas, setQntPerguntas] = useState(1)
+  const [opSelect, setOpSelect] = useState(0)
+  const [temas, setTemas] = useState()
+
+  useEffect(() => {
+    fetch('https://tryvia.ptr.red/api_category.php')
+    .then(resp => resp.json())
+    .then(data => setTemas(data.trivia_categories))
+  }, [])
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -22,12 +31,40 @@ function Home() {
     fetchToken()
  }, [])
 
+
+    const handleChange = (event) => {
+        const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+        setOpSelect(selectedOptions)
+        console.log(selectedOptions)
+    }
+    const handleNumberChange = (event) => {
+        setQntPerguntas(event.target.value)
+    }
+
     return(
         <div>
             <div className={styles.content}>
                 <h1 className={styles.title}>TRIVIA QUIZ <GiThink className={styles.icon}/></h1>
+                
+                <div>
+                    <div>
+                        <label>Temas</label>
+                        <select name="temas" onChange={handleChange}>
+                            <option value={0}>Sem tema</option>
+                            {temas && temas.map((op, index) => (
+                                <option value={op.id} key={index}>{op.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Quantidade de perguntas</label>
+                        <input type="number" value={qntPerguntas} min={1} max={10} onChange={handleNumberChange}/>
+                        <p>número min de perguntas é 1 e o max é 10</p>
+                    </div>
+                </div>
+
                 <div className={styles.buttons}>
-                    {apiToken && <Link to='/Questions' state={apiToken}><button>COMEÇAR</button></Link>}
+                    {apiToken && <Link to='/Questions' state={{apiToken, qntPerguntas, opSelect}}><button>COMEÇAR</button></Link>}
                 </div>
             </div>
         </div>
