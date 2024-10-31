@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 function Home() {
 
   const [apiToken, setApiToken] = useState()
-  const [qntPerguntas, setQntPerguntas] = useState(1)
+  const [qntPerguntas, setQntPerguntas] = useState(5)
   const [opSelect, setOpSelect] = useState(0)
   const [temas, setTemas] = useState()
 
@@ -46,8 +46,8 @@ function Home() {
             <div className={styles.content}>
                 <h1 className={styles.title}>TRIVIA QUIZ <GiThink className={styles.icon}/></h1>
                 
-                <div>
-                    <div>
+                <div className={styles.forms}>
+                    <div className={styles.temas}>
                         <label>Temas</label>
                         <select name="temas" onChange={handleChange}>
                             <option value={0}>Sem tema</option>
@@ -56,10 +56,9 @@ function Home() {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <label>Quantidade de perguntas</label>
+                    <div className={styles.qntPerguntas}>
+                        <label>Quantidade de perguntas: </label>
                         <input type="number" value={qntPerguntas} min={1} max={10} onChange={handleNumberChange}/>
-                        <p>número min de perguntas é 1 e o max é 10</p>
                     </div>
                 </div>
 

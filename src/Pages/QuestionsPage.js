@@ -18,10 +18,12 @@ function QuestionsPage() {
                         const response = await fetch(`https://tryvia.ptr.red/api.php?amount=${qntPerguntas}&token=${apiToken}`)
                         const data = await response.json()
                         setQuestionList(data.results)
+                        console.log(data.results)
                     } else if (opSelect !== '') {
                         const response = await fetch(`https://tryvia.ptr.red/api.php?amount=${qntPerguntas}&category=${opSelect}&token=${apiToken}`)
                         const data = await response.json()
                         setQuestionList(data.results)
+                        console.log(data.results)
                     }
                 }
             } catch(err) {
