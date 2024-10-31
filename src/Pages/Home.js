@@ -35,7 +35,6 @@ function Home() {
     const handleChange = (event) => {
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
         setOpSelect(selectedOptions)
-        console.log(selectedOptions)
     }
     const handleNumberChange = (event) => {
         setQntPerguntas(event.target.value)

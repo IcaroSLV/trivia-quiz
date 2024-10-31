@@ -73,7 +73,6 @@ function Question({fetchArrayPerguntas, qntPerguntas}) {
                         setAwnserCorrect(false);
                         setclickedIndex(null);
                         setIsDisable(false);
-                        console.log(newQntCorrect);
                     }, 1500);
                 } else {
                     setTimeout(() => {
