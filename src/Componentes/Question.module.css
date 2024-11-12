@@ -29,15 +29,15 @@
 .question .options {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 65%;
+    gap: 2.6em;
 }
 
 .question .options button {
     font-weight: 800;
     font-size: 1.5em;
-    margin-bottom: 1.7em;
     padding: .4em;
     width: 270px;
     background-color: #6CF3D5;
@@ -56,3 +56,54 @@
 .correct {
     background-color: #A3B808 !important;
 }
+
+@media (max-width: 768px) {
+    .info {
+        gap: 2em;
+        font-size: 15px;
+    }
+
+    .question h1 {
+        font-size: 27px;
+    }
+
+    .question .options {
+        gap: 1.5em;
+    }
+
+    .question .options button {
+        font-size: 1.2em;
+        width: 230px;
+    }
+}
+
+@media (max-width: 425px) {
+    .info {
+        gap: 1.6em;
+        font-size: 10px;
+    }
+
+    .question h1 {
+        font-size: 14px;
+    }
+    .question .options button {
+        font-size: .8em;
+        width: 190px;
+    }
+}
+
+@media (max-width: 320px) {
+    .info {
+        gap: 1.2em;
+        font-size: 9px;
+    }
+
+    .question h1 {
+        font-size: 14px;
+    }
+    .question .options button {
+        font-size: .8em;
+        width: 190px;
+    }
+}
+
